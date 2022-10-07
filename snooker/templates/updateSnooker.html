@@ -1,0 +1,281 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en" x-data="data()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masho Fitness</title>
+    <link rel="stylesheet" href="{% static 'public/main.css' %}">
+    <link rel="icon" type="" sizes="32x32" href="{% static 'img/favicon.jpeg'%}"/>
+    <link rel="icon" type="" sizes="16x16" href="{% static 'img/favicon.jpeg'%}"/>
+    
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="{% static 'js/init-alpine.js' %}"></script>
+    <script src="{% static 'js/focus-trap.js' %}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    {% tailwind_css %}
+
+</head>
+
+<body>
+
+    <div class="flex h-screen bg-gray-50 " :class="{ 'overflow-hidden': isSideMenuOpen }">
+        <!-- Desktop Sidebar ye side navigation ha -->
+        <aside
+            class="z-20 hidden w-60 overflow-y-auto scrollbar scrollbar-thin  scrollbar-thumb-red-500 scrollbar-track-red-200 bg-white  md:block flex-shrink-0">
+            <div class="py-4 text-gray-600 ">
+                <a href="/index/" class="ml-6 text-lg font-bold text-red-600">Masho Fitness</a>
+                <ul class="ml-1 mt-6 mr-1 shadow-inner rounded-md shadow-slate-300 cursor-pointer">
+                    <li class="relative px-6 py-3">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-red-700 "
+                            href="{% url 'index' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                            <span class="ml-4 text-[16px]">Dashboard</span>
+                        </a>
+                    </li>
+                    
+                    <!-- Snooker Club -->
+                    <li class="relative px-6 py-3 text-red-900">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-red-700 "
+                            href="{% url 'snooker' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                              </svg>
+                              <span class="absolute inset-y-0 left-0 w-1 bg-red-600 rounded-tr-lg rounded-br-lg"></span>
+                            <span class="ml-4 text-lg">Snooker Club</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </aside>
+        <!-- Yahan Desktop Sidebar khatam -->
+
+        <div class="flex flex-col flex-1 w-full">
+            <!-- Header -->
+            <header class="z-10 py-4 bg-white shadow-md ">
+                <div
+                    class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 ">
+
+                    <!-- Mobile hamburger -->
+                    <button class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
+                        aria-label="Menu">
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+
+                    <ul class="hidden sm:flex items-center flex-shrink-0 space-x-6">
+                        <li class="relative">
+                            <button
+                                class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                                  </svg>
+                            </button>
+                        </li>
+                        <li class="relative">
+                            <button
+                                class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                                  </svg>
+                            </button>
+                        </li>
+                        <li class="relative">
+                            <button
+                                class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                  </svg>
+                            </button>
+                        </li>
+                        <li class="relative">
+                            <button
+                                class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                  </svg>
+                            </button>
+                        </li>
+                    </ul>
+                    <!-- Search input -->
+                    <div class="flex justify-center flex-1 lg:mr-32">
+                        <div class="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
+                            <div class="absolute inset-y-0 flex items-center pl-2">
+                                <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <input
+                                class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md      focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
+                                type="text" placeholder="Search" aria-label="Search" />
+                        </div>
+                    </div>
+
+
+                    <ul class="flex items-center flex-shrink-0 space-x-6">
+                        
+                        <li class="relative">
+                            <button
+                                class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                  </svg>
+                            </button>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </header>
+            <!-- Main Inner Complete Page -->
+            <!-- <p>{{ record }}</p> -->
+            <main class="h-full overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-red-700 scrollbar-track-red-300">
+                <div class="container px-6 mx-auto grid">
+                    <h2 class="my-3 text-2xl text-center font-semibold text-red-600 ">
+                       Update Snooker Details
+                    </h2>
+
+                    <div class="px-3 py-3 mb-8 bg-white rounded-lg shadow-md ">
+                        <p
+                            class="p-2 font-semibold text-lg text-gray-600  border-b-2 border-gray-700 border-opacity-80">
+                            Update Snooker Income
+                        </p>
+                            <!-- Member Details-->
+                        <form action="/updateSnooker/" method="post">
+                                {% csrf_token %}
+                     
+                            <div class="grid m-1 border-b border-blue-900 pb-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 font-semibold gap-2">
+
+                                <div class="flex flex-col">
+                                    <label for=""  class="m-1">Date</label>
+                                    <input type="date" class="rounded-md p-2 outline-none border-none shadow-inner bg-gray-200"
+                                    value="{{day_details.date|date:'Y-m-d'}}" name="date"
+                                    >
+                                </div>
+
+                                <!-- <div class="flex flex-col">
+                                    <label for=""  class="m-1">Attended By</label>
+                                    <select name="attended-by" id="" class="rounded-md bg-gray-200 outline-none border-none shadow-inner">
+                                        <option value="{{day_details.attened_by}}">{{day_details.attened_by}}</option>
+                                        <option value="User 1">User 1</option>
+                                        <option value="User 2">User 2</option>
+                                    </select>
+                                </div> -->
+                                <div class="flex flex-col">
+                                    <label for="" class="m-1">Attended By</label>
+                                    <input type="text" class="rounded-md p-2 outline-none border-none shadow-inner bg-gray-300" readonly
+                                    value="{{day_details.snooker_attened_by.user.username}}"
+                                    
+                                    >
+                                </div>
+
+                                <div class="flex flex-col">
+                                    <label for="" class="m-1">Total Income</label>
+                                    <input type="text" class="rounded-md p-2 outline-none border-none shadow-inner bg-gray-300" readonly
+                                    value="{{day_details.total_income}}"
+                                    
+                                    >
+                                </div>
+
+                                <div class="flex flex-col col-span-5">
+                                    <label for="" class="m-1">Description</label>
+                                    <input type="text" class="rounded-md p-2 outline-none border-none shadow-inner bg-gray-300"
+                                    value="{{day_details.description}}" name='description'>
+                                    
+                                </div>
+                                <input type="number" name="income-id" value="{{day_details.id}}" hidden >
+                                <div class="flex flex-col float-right mt-3">
+                                    <button class="bg-blue-600 rounded-lg px-5 text-white shadow-md rounded-br-none py-1" name="update-income" value="update-income">
+                                    Update Income
+                                    </button>
+                                </div>
+
+                            </div>
+                        
+                        </form>
+
+                            <div class="flex flex-row mt-2 justify-between border-b-2 border-gray-700 border-opacity-80">
+                                <p class="p-2 text-lg font-semibold text-gray-600 ">Table Details</p>
+                                
+                            </div>
+
+                            <table class="table-auto border-gray-200 w-full">
+                                <thead class="border-b-2 text-left border-gray-400">
+                                <tr class="">
+                                    <th class="p-2">
+                                    
+                                    </th>
+                                    <th class="p-1">Date</th>
+                                    <th class="p-1">Income Amount</th>
+                                    <th class="p-1">Table Name / No.</th>
+                                    <th class="p-1">Minute / Table</th>
+                                    <th class="p-1">Action</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data in record%}
+                                <tr class="border-2 hover:bg-slate-300">
+                                    <td class="p-2">
+                                    
+                                    </td>
+                                    <td value="{{data.snooker_id.date}}" class="p-2">{{data.snooker_id.date}}</td>
+                                    <td class="p-2">{{data.amount}}</td>
+                                    <td class="p-1">{{data.table_number}}</td>
+                                    <td class="p-1">{{data.minutes_per_table}}</td>
+                                    
+                                    <td class="p-1">
+                                            <form action="/updateSnooker/" method="post">
+                                                {% csrf_token %}
+                                                <input type="number" hidden value="{{data.id}}" name="table-id">
+                                                <input type="number" hidden value="{{data.snooker_id.id}}" name="snooker-id">
+                                            <button class="bg-blue-600 text-white drop-shadow-md px-2 py-[.5] rounded-lg inline-flex items-center rounded-br-none" name="update-button" value="update-button">
+                                                <span>Update</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+    
+                                        <button  class="bg-red-500 text-white drop-shadow-md rounded-lg inline-flex items-center py-[.5] px-1 rounded-br-none" value="delete-button" name="delete-button">
+                                            <span>Delete</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                    </td>
+                                </tr>
+                                  {% endfor %}
+                                </tbody>
+                            </table>
+                        
+
+                    </div>
+                    
+
+                </div> <!-- Main Container-->
+
+
+
+            </main>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

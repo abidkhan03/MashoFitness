@@ -1,0 +1,650 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en" x-data="data()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masho Fitness</title>
+    <link rel="stylesheet" href="{% static 'public/main.css' %}">
+    <link rel="icon" type="" sizes="32x32" href="{% static 'img/favicon.jpeg'%}" />
+    <link rel="icon" type="" sizes="16x16" href="{% static 'img/favicon.jpeg'%}" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="{% static 'js/init-alpine.js' %}"></script>
+    <script src="{% static 'js/focus-trap.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    {% tailwind_css %}
+
+</head>
+
+<body>
+
+    <div class="flex h-full bg-gray-50 ">
+
+        <div class="flex flex-col w-full">
+            <!-- Header -->
+            <header class="py-1 bg-white border border-slate-800 m-1 shadow-sm print:hidden">
+                <div class=" flex items-center h-full px-3 mx-auto text-red-900 ">
+
+
+                    <ul class="hidden sm:flex items-center flex-shrink-0 space-x-4">
+                        <li class="relative">
+                            <a href="/pos/">
+                                <button
+                                    class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                    </svg>
+                                </button>
+                            </a>
+                        </li>
+                        <a href="" class=" text-lg font-bold text-red-600">Masho Fitness Cafeteria</a>
+                        <!-- Large Screen -->
+                        <li class="relative">
+                            <button
+                                class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                                </svg>
+                            </button>
+                        </li>
+                        <!-- Lock Screen -->
+                        <li class="relative">
+                            <button
+                                class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </button>
+                        </li>
+
+                        <li class="relative">
+                            <div class="inline-flex w-full bg-white shadow-sm flex-row p-1">
+
+                                {% comment %} <ul class="flex flex-row gap-1">
+                                    <li class="px-5 py-1 bg-red-400 rounded-xl text-white text-sm mr-4">
+                                        All Items
+                                    </li>
+                                    <li class="px-5 py-1 bg-red-400 rounded-xl text-white text-sm mr-4">
+                                        Food
+                                    </li>
+                                    <li class="px-5 py-1 bg-red-400 rounded-xl text-white text-sm mr-4">
+                                        Cold Drinks
+                                    </li>
+                                    <li class="px-5 py-1 bg-red-400 rounded-xl text-white text-sm mr-4">
+                                        Hot Drinks
+                                    </li>
+                                </ul> {% endcomment %}
+                                <!-- Search input -->
+                                <div class="relative focus-within:text-purple-500">
+                                    <div class="absolute inset-y-0 flex items-center pl-2">
+                                        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <input onkeyup="searchItemInSalesTerminal(this.value)"
+                                        class="w-96 pl-8 h-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-200 border-0 rounded-md      focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
+                                        type="search" placeholder="Search" aria-label="Search" />
+                                </div>
+
+
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </header>
+            <!-- Main Inner Complete Page -->
+            <main class="h-full bg-white overflow-hidden print:hidden">
+                <div class="w-full flex flex-col">
+
+                    <div class="flex flex-row lg:h-128 2xl:h-120">
+                        <div
+                            class="w-3/5 border border-gray-700 ml-1 overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-red-600 scrollbar-track-red-300">
+                            <!-- left daba -->
+                            <div class="flex flex-col  md:col-span-3 border-r-8 border-white bg-white">
+                                <div id="item-main-div"
+                                    class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-7 p-5 gap-4  overflow-y-auto shadow-inner scrollbar scrollbar-thin  scrollbar-thumb-red-500 scrollbar-track-red-200">
+
+                                    <!-- products -->
+                                    {% for item in itemsData %}
+                                    <div onclick="addToCart('{{item.inventory_item_id.item_name}}')"
+                                        class="px-3 py-3 flex flex-col hover:border-2 border-blue-200 cursor-pointer bg-gray-200 rounded-md h-32 justify-between">
+                                        <div>
+                                            <div class="font-bold text-gray-800">{{item.inventory_item_id.item_name}}
+                                            </div>
+                                            <span
+                                                class="font-light text-sm text-gray-400">{{item.inventory_item_id.item_category}}</span>
+                                            <span class="text-sm" id="{{item.inventory_item_id.item_name}}">{{item.inventory_stock_available }}</span>
+                                        </div>
+
+
+                                        <div class="flex flex-row justify-between items-center">
+                                            <span
+                                                class="self-end font-bold text-lg text-yellow-500">{{item.inventory_item_id.item_selling_price}}</span>
+                                            <img src="{{ MEDIA_URL }}/{{item.inventory_item_id.item_image}}"
+                                                class="h-14 object-cover rounded-md" alt="">
+                                        </div>
+
+
+                                    </div>
+                                    {% endfor %}
+                                    <!-- </div> -->
+                                    {% for item in nonStockItems %}
+                                    <div class="px-3 py-3 flex flex-col hover:border-2 border-blue-200 cursor-pointer bg-gray-200 rounded-md h-32 justify-between"
+                                        onclick="addToCart('{{item.nonStock_item_name}}')">
+
+                                        <div>
+
+                                            <div class="font-bold text-gray-800">{{item.nonStock_item_name}}</div>
+                                            <span
+                                                class="font-light text-sm text-gray-400">{{item.nonStock_item_category}}</span>
+                                            <span class="text-sm" id="{{item.nonStock_item_name}}">inf</span>
+                                            <!-- <span class="text-sm" id="{{item.inventory_item_id.item_name}}">{{ item.inventory_stock_available }}</span> -->
+
+
+                                        </div>
+                                        <div class="flex flex-row justify-between items-center">
+                                            <span
+                                                class="self-end font-bold text-lg text-yellow-500">{{item.nonStock_item_selling_price}}</span>
+                                            <img src="{{ MEDIA_URL }}/{{item.nonStock_item_image}}"
+                                                class="h-14 object-cover rounded-md" alt="">
+                                        </div>
+
+                                    </div>
+                                    {% endfor %}
+                                    <!-- end products -->
+
+                                </div>
+
+                            </div>
+                            <!-- left daba khatama -->
+                        </div>
+                        <div class="w-2/5 border border-gray-600 m-1 mt-0 mb-0 bg-white">
+                            <!-- right daba -->
+                            <div class="shadow-inner w-full">
+
+                                <!-- header -->
+                                <div class="flex flex-row shadow-inner p-1">
+                                    <div class="font-bold text-lg px-1">Current Order</div>
+                                </div>
+                                <!-- end header -->
+
+                                <!-- order list -->
+                                <div
+                                    class="px-1 lg:h-110 2xl:h-120 bg-white scrollbar scrollbar-thin  scrollbar-thumb-red-500 scrollbar-track-red-200">
+                                    <form id="FormName" action="{% url 'salesTerminal' %}" method="post">
+                                        <!-- {% csrf_token %} -->
+                                        <table class="table-auto border-gray-200 w-full" id="myTable" name="table-data">
+
+                                            <thead class="border-b-2 border-gray-400 sticky top-0 bg-red-100">
+                                                <tr class=" text-sm">
+
+                                                    <th class="p-1"></th>
+                                                    <th class="p-1">S No.</th>
+                                                    <th class="p-1">Item Code</th>
+                                                    <th class="p-1">Item Name</th>
+                                                    <th class="p-1">Price</th>
+                                                    <th class="p-1">Quantity</th>
+                                                    <th class="p-1">in/de</th>
+                                                    <th class="p-1">Discount</th>
+                                                    <th class="p-1">Total Price</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="" id="myTableBody">
+
+                                            </tbody>
+                                        </table>
+                                    </form>
+
+                                </div>
+                                <!-- end order list -->
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- totalItems -->
+                    <div class="w-full fixed bottom-24">
+                        <div class="p-1 bg-gray-200 justify-between border border-slate-800 ml-1 mr-1 flex flex-row">
+                            <div class="p-3 bg-white shadow-lg ml-20 px-20">
+                                <span class="font-bold">Amount Paid : </span>
+                                <span class="font-bold text-lg text-blue-700" id="amount-paid">00</span>
+                            </div>
+                            <!-- <div class="p-3 bg-white shadow-lg ml-20 px-20">
+                                <span class="font-bold">Member Name: : </span>
+                                <span class="font-bold text-lg text-blue-700" id="Member-name"></span>
+                            </div> -->
+                            <div class="justify-end flex flex-row">
+                                <div class="border px-6 flex flex-col bg-white">
+                                    <span class="font-semibold text-md">Subtotal</span>
+                                    <span class="font-bold text-right" id="subtotal">00</span>
+                                </div>
+                                <div class="border px-6 flex flex-col bg-white">
+                                    <span class="font-semibold text-md">Discount</span>
+                                    <span class="font-bold text-right text-red-700" id="total-discount">0</span>
+                                </div>
+                                <div class="border px-6 flex flex-col bg-white">
+                                    <span class="font-semibold text-md">Sales Tax</span>
+                                    <span class="font-bold text-right" id="sales-tax">00</span>
+                                </div>
+                                <div class="border px-6 items-center flex gap-4 bg-white">
+                                    <span class="font-semibold text-2xl">Total :</span>
+                                    <span class="font-bold text-2xl" id="total-price">00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end total -->
+
+                    <div
+                        class="fixed ml-1 mr-1 left-0 right-0 bottom-0 border border-red-900 py-1 bg-gray-200 shadow-md ">
+                        <div class="px-2">
+
+                            <div class="grid grid-flow-col justify-end gap-5">
+                                <!-- Cash -->
+                                <div class=" bg-white p-1 rounded-md shadow-sm rounded-br-none px-10 w-36"
+                                    onclick="submitForm()" @click="openViewCafeteriaBillModal()">
+                                    <img src="{% static 'img/cash.png' %}" class="h-12" />
+                                    <span class="font-semibold">Cash</span>
+                                </div>
+
+
+                                <!-- Close -->
+                                <div class=" bg-white p-1 rounded-md shadow-sm rounded-br-none px-10 w-36">
+                                    <a href="{% url 'pos' %}">
+                                        <img src="{% static 'img/close.png' %}" class="h-12" />
+                                        <span class="font-semibold">Close</span></a>
+                                </div>
+                                <!-- Hisotry -->
+                                <div class=" bg-white p-1 rounded-md shadow-sm rounded-br-none px-10 w-36"
+                                    @click="openCafeteriaHistoryModal">
+                                    <img src="{% static 'img/cash.png' %}" class="h-12" />
+                                    <span class="font-semibold">History</span>
+                                </div>
+
+                                <!-- cash -->
+                                <!-- <div class="px-5 mt-5"> -->
+                                <div class="rounded-md shadow-lg bg-white px-5 py-1 w-auto">
+                                    <div class="flex flex-row justify-between items-center" onclick="cashlessCredit()">
+                                        <div class="flex flex-col px-3">
+                                            <span class="uppercase text-sm font-semibold " id="cashless">cashless
+                                                credit:{{mashoo.customer_name}}</span>
+                                            <span class="text-xl font-bold text-yellow-500"
+                                                id="cashlessAmount">{{mashoo.customer_dues}}</span>
+                                            <span class="text-sm text-gray-600 ">Available</span>
+                                        </div>
+
+                                        <!-- Cancel -->
+                                        <div class=" bg-gray-200 p-1 pr-3 rounded-md shadow-inner">
+                                            <img src="{% static 'img/cancel.png' %}" class="ml-4 mt-2 p-1 h-10" />
+                                            <span class="font-semibold float-right">Cancel</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- </div> -->
+                                <!-- end cash -->
+
+                                <!-- Customer -->
+                                <div class="rounded-md shadow-lg bg-white px-5 py-1 w-auto">
+                                    <div class="flex flex-row justify-between items-center"
+                                        @click="openCafeteriaCustomerModal">
+                                        <div class="flex flex-col px-5">
+                                            <span hidden id="member-id"></span>
+                                            <span class="text-lg font-semibold" id="Member-name">Walk-In Customer</span>
+                                            <div class="flex-row">
+                                                <span class="text-xl font-bold text-yellow-500">Balance :
+                                                </span>
+                                                <span class="text-sm text-gray-600 " id="Member-dues">1000</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cancel -->
+                                        <div class=" bg-gray-200 p-1 pr-3 rounded-md shadow-inner cursor-pointer">
+                                            <img src="{% static '/img/discuss.png'%}" class="h-12" />
+                                            <span class="font-semibold float-right">Customer</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end Customer -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </main>
+
+
+        </div>
+
+    </div>
+    <!-- Modal Customer-->
+    <div x-show="isCafeteriaCustomerModalOpen" x-transition:enter="transition ease-out duration-150"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+        <!-- Modal -->
+        <div x-show="isCafeteriaCustomerModalOpen" x-transition:enter="transition ease-out duration-150"
+            x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0  transform translate-y-1/2"
+            class="w-full h-11/12 overflow-auto bg-white  sm:m-4 sm:max-w-xl" role="dialog" id="CafeteriaCustomerModal">
+            <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+            <header class="sticky top-0 px-2 font-bold flex justify-between bg-blue-200">
+                <span>Customer Model</span>
+                <input type="text" class="w-full h-full" placeholder="Search" id="search-memberName"
+                    onkeyup="MemberSearchByName()" />
+                <button
+                    class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded  hover: hover:text-gray-700"
+                    aria-label="close" @click="closeCafeteriaCustomerModal">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
+                        <path
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                </button>
+
+            </header>
+            <!-- <form action="{% url 'addItem' %}" method="post" enctype="multipart/form-data"> -->
+            <!-- {% csrf_token %} -->
+            <!-- Modal body -->
+            <div class="bg-white p-1">
+                <div class=" grid gap-1 h-110 overflow-y-auto">
+                    <table class="table-auto border-gray-200 w-full " id="myTableCustomers">
+                        <thead class="border-b-2 text-left border-gray-400">
+                            <tr class="">
+                                <th class="p-2">
+                                </th>
+                                <th class="p-2">S No.</th>
+                                <th class="p-2">Name</th>
+                                <th class="p-2">Number</th>
+                                <th class="p-2">Dues</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memberTableId">
+                            {% for c in customer %}
+                            <tr>
+                                <td class="p-2">
+                                    <input onclick="onlyOne(this)" value="{{c.id}}" type="checkbox" name="check"
+                                        class="cursor-pointer rounded-md ">
+                                </td>
+                                <td class="p-2 member-id-row" hidden>{{c.id}}</td>
+                                <td class="p-2">{{c.customer_SerialNo}} </td>
+                                <td class="p-2 member-name-row">{{c.customer_name}} </td>
+                                <td class="p-2">{{c.customer_contact}}</td>
+                                <td class="p-2 member-dues-row">{{c.customer_dues}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <footer
+                class="sticky bottom-0 py-1 flex flex-col items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-blue-200 ">
+                <button class="bg-blue-500 px-6 py-1 rounded-xl text-white " onclick="memberSelection()"
+                    @click="closeCafeteriaCustomerModal">
+                    OK
+                </button>
+                <button @click="closeCafeteriaCustomerModal" class="bg-blue-400 px-6 py-1 rounded-xl text-white"
+                    value="cancel-button">
+                    Cancel
+                </button>
+            </footer>
+            <!-- </form> -->
+
+        </div>
+    </div>
+    <!-- End of modal backdrop -->
+
+    <!-- Modal History-->
+    <div x-show="isCafeteriaHistoryModalOpen" x-transition:enter="transition ease-out duration-150"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+        <!-- Modal -->
+        <div x-show="isCafeteriaHistoryModalOpen" x-transition:enter="transition ease-out duration-150"
+            x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0  transform translate-y-1/2"
+            class="w-full h-11/12 overflow-auto bg-white  sm:m-4 sm:max-w-xl" role="dialog" id="CafeteriaHistoryModal">
+            <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
+            <header class="sticky top-0 px-2 font-bold flex justify-between bg-blue-200">
+                <span>Order History Model</span>
+                <input type="text" class="w-full h-full" placeholder="Search" id="search-memberNameForOrder"
+                    onkeyup="OrderSearchByName()" />
+                <button
+                    class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded  hover: hover:text-gray-700"
+                    aria-label="close" @click="closeCafeteriaHistoryModal">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
+                        <path
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                </button>
+
+            </header>
+            <!-- <form action="{% url 'addItem' %}" method="post" enctype="multipart/form-data"> -->
+            <!-- {% csrf_token %} -->
+            <!-- Modal body -->
+            <div class="bg-white p-1">
+                <div class=" grid gap-1 h-110 overflow-y-auto">
+                    <table class="table-auto border-gray-200 w-full " id="myTableOrder">
+                        <thead class="border-b-2 text-left border-gray-400">
+                            <tr class="">
+                                <th class="p-2">
+                                </th>
+                                <th class="p-2">S No.</th>
+                                <th class="p-2">Date</th>
+                                <th class="p-2">Customer</th>
+                                <th class="p-2">Discount</th>
+                                <th class="p-2">Total</th>
+                                <th class="p-2">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTableId">
+                            {% for order in orders %}
+                            <tr>
+                                <td class="p-2">
+                                    <input onclick="onlyOne(this)" value="{{order.id}}" type="checkbox" name="check"
+                                        class="cursor-pointer rounded-md ">
+                                </td>
+                                <td class="p-1">{{order.id}}</td>
+                                <td class="p-1">{{order.order_date}} </td>
+                                <td class="p-1">{{order.customer_id.customer_name}} </td>
+                                <td class="p-1">{{order.order_total_discount}}</td>
+                                <td class="p-1">{{order.order_total_price}}</td>
+                                <td class="p-1 bg-green-200 m-3 drop-shadow-md rounded-xl rounded-br-none">
+                                    {{order.order_status}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <footer
+                class="sticky bottom-0 py-1 flex flex-col items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-blue-200 ">
+                <button class="bg-blue-500 px-6 py-1 rounded-xl text-white " onclick="orderSelection()">
+                    OK
+                </button>
+                <button @click="closeCafeteriaHistoryModal" class="bg-blue-400 px-6 py-1 rounded-xl text-white"
+                    value="cancel-button">
+                    Cancel
+                </button>
+            </footer>
+            <!-- </form> -->
+
+        </div>
+    </div>
+
+    <!-- modal receipt -->
+    <div x-show="isViewCafeteriaBillModalOpen" id="ViewCafeteriaBillModal"
+        class="fixed w-full h-screen left-0 top-0 z-10 flex flex-wrap justify-center content-center p-24">
+        <div x-show="isViewCafeteriaBillModalOpen" class="fixed glass w-full h-screen left-0 top-0 z-0"
+            x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-100"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+        <div x-show="isViewCafeteriaBillModalOpen" class="w-96 bg-gray-200 z-10"
+            x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-100"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90">
+            <div class="p-2">
+                <div class="float-right">
+                    <svg xmlns="http://www.w3.org/2000/svg" x-on:click="closeCafeteriaBillModel()"
+                        class="h-5 w-5 text-blue-800 cursor-pointer print:hidden" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                <div class="mt-5">
+                    <img src="{% static 'img/masho_logo.jpg'%}" alt="" class="w-10 rounded-full">
+                    <h1 class="underline font-bold text-xl text-center">MASHO SPORTS COMPLEX</h1>
+                    <p class="text-center font-semibold">Office Tel No: <span class="font-normal">081-2661045</span></p>
+
+                    <div class="px-3 mt-3 gap-3 flex flex-row">
+                        <div>
+                            <table class="table-auto border-gray-200 w-full" id="myPrintTable" name="table-data">
+
+                                <thead class="border-b-2 border-gray-400  top-0 bg-red-100">
+                                    <tr class=" text-sm">
+
+                                        <!-- <th class="p-1"></th> -->
+                                        <!-- <th class="p-1">S No.</th> -->
+                                        <!-- <th class="p-1">Item Code</th> -->
+                                        <th class="p-1">Item Name</th>
+                                        <th class="p-1">Price</th>
+                                        <th class="p-1">Quantity</th>
+                                        <!-- <th class="p-1">in/de</th> -->
+                                        <th class="p-1">Discount</th>
+                                        <th class="p-1">Total Price</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="" id="printTable">
+
+                                </tbody>
+                                <!-- <script>
+                                    var p = $(o).closest('tr');
+                                    copyTable = $('#myTableBody tbody');
+                                    cloneRow = p.clone();
+                                    copyTable.append(cloneRow)
+                                    p.remove();
+                                </script> -->
+                            </table>
+                        </div>
+
+
+
+                        <!-- <div>
+                            <label for="" class="font-semibold">Date </label>
+                            <label for="" id="today-date" class="text-sm"></label>
+                        </div>
+                        <div>
+                            <label for="" class="font-semibold">Reg No. </label>
+                            <label for="" class="text-sm">{{member_serial}} </label>
+                        </div>
+                        <div>
+                            <label for="" class="font-semibold">Inv No. </label>
+                            <label for="" id="b-inv" class="text-sm"> </label>
+                        </div>
+                    </div> -->
+                        <!-- <div class="px-10 py-2 gap-3 flex flex-row justify-between">
+                        <div>
+                            <label for="" class="font-semibold">Name </label>
+                            <label for="">{{member_name}} </label>
+                        </div>
+                        <div>
+                            <label for="" class="font-semibold">Contact </label>
+                            <label for="" id="b-contact"> </label>
+                        </div>
+                    </div>
+                    <div class="px-10">
+                        <div>
+                            <label for="" class="font-semibold">Category </label>
+                            <label for="" id="b-category" class="float-right"> </label>
+                        </div>
+                        <div>
+                            <label for="" class="font-semibold">Membership Type </label>
+                            <label for="" id="b-membership-type" class="float-right"> </label>
+                        </div>
+                        <div>
+                            <label for="" class="font-semibold">Amount Paid Date </label>
+                            <label for="" id="b-paid-date" class="float-right"> </label>
+                        </div>
+                        <div>
+                            <label for="" class="font-semibold">Total Fee </label>
+                            <label for="" id="b-total" class="float-right"> </label>
+                        </div>
+                        <div>
+                            <label for="" class="font-semibold">Received </label>
+                            <label for="" id="b-recieved" class="float-right"> </label>
+                        </div>
+                        <div>
+                            <label for="" class="font-semibold">Remaining Amount </label>
+                            <label for="" id="b-remaining" class="float-right"> </label>
+                        </div> -->
+
+                    </div>
+                    <!-- <div class="mt-5">
+                        <label for="" class="font-semibold">Signature </label>
+                        <label for="" class="float-right">_____________________________</label>
+                    </div> -->
+                    <div class="p-4 w-full">
+                        <button
+                            class="bg-cyan-500 text-white text-lg py-1 rounded-xl w-full focus:outline-none print:hidden"
+                            x-on:click="printPaymentBill()" id="printPaymentBill">Print</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <!-- End of modal backdrop -->
+
+    <!-- Modal Customer-->
+
+    <!-- End of modal backdrop -->
+    <script>
+
+        const $printPaymentBill = document.querySelector("#ViewCafeteriaBillModal");
+        $printPaymentBill.addEventListener("click", () => {
+            window.print();
+            window.location.reload();
+        });
+    </script>
+    <script src="{% static 'js/salesTerminal.js' %}"></script>
+</body>
+
+</html>

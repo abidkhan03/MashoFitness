@@ -1,0 +1,7 @@
+django==3.2
+django-tailwind==3.0.1
+pillow
+djangorestframework
+apscheduler
+gunicorn
+django-mathfilters

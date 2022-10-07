@@ -1,0 +1,618 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en" x-data="data()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masho Fitness</title>
+    <link rel="stylesheet" href="{% static 'public/main.css' %}">
+    <link rel="icon" type="" sizes="32x32" href="{% static 'img/favicon.jpeg'%}"/>
+    <link rel="icon" type="" sizes="16x16" href="{% static 'img/favicon.jpeg'%}"/>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="{% static 'js/init-alpine.js' %}"></script>
+    <script src="{% static 'js/focus-trap.js' %}"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    {% tailwind_css %}
+
+</head>
+
+<body>
+  <div class="flex h-screen bg-gray-50" :class="{ 'overflow-hidden': isSideMenuOpen }">
+    <!-- Desktop Sidebar ye side navigation ha -->
+    <aside
+      class="z-20 hidden w-60 overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-red-200 bg-white md:block flex-shrink-0">
+      <div class="py-4 text-gray-600">
+        <a href="/index/" class="ml-6 text-lg font-bold text-red-600">Masho Fitness</a>
+        <ul class="ml-1 mt-6 mr-1 shadow-inner rounded-md shadow-slate-300 cursor-pointer">
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-red-700"
+              href="{% url 'index'%}">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              <span class="ml-4 text-md">Dashboard</span>
+            </a>
+          </li>
+          <!-- GRM Management -->
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-red-700"
+              href="{% url 'gymManagement'%}">
+              <img src="{% static 'img/gym.png'%}" class="h-6" />
+              <span class="ml-4 text-lg font-semibold">GYM Member</span>
+            </a>
+            <!-- <button
+                            class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-red-700 "
+                            @click="toggleGymMemberMenu" aria-haspopup="true">
+                            <span class="inline-flex items-center">
+                                <img src="img/gym.png" class="h-6"/>
+                                <span class="ml-4">GYM Member</span>
+                            </span>
+                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <template x-if="isGymMemberMenuOpen">
+                            <ul x-transition:enter="transition-all ease-in-out duration-300"
+                                x-transition:enter-start="opacity-25 max-h-0"
+                                x-transition:enter-end="opacity-100 max-h-xl"
+                                x-transition:leave="transition-all ease-in-out duration-300"
+                                x-transition:leave-start="opacity-100 max-h-xl"
+                                x-transition:leave-end="opacity-0 max-h-0"
+                                class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50  "
+                                aria-label="submenu">
+                                <li
+                                    class="flex gap-2 px-2 py-1 transition-colors duration-150 hover:text-gray-800 ">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                                    </svg>
+                                    <a class="w-full" href="addMember.html">Add Members</a>
+                                </li>
+                                <li
+                                    class="flex gap-2 px-2 py-1 transition-colors duration-150 hover:text-gray-800 ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+                                    </svg>
+                                    <a class="w-full" href="viewMembers.html">
+                                        View Members
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </template> -->
+          </li>
+
+          <!-- Add Member -->
+          <li class="relative px-6 py-3">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-red-700"
+              href="{% url 'addMember'%}">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
+              <span class="ml-4">Add Member(s)</span>
+            </a>
+          </li>
+
+          <!-- POS -->
+          <li class="relative px-6 py-3 text-red-900">
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-red-700"
+              href="{% url 'viewMembers'%}">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+              </svg>
+              <span class="absolute inset-y-0 left-0 w-1 bg-red-600 rounded-tr-lg rounded-br-lg"></span>
+              <span class="ml-4">View Member(s)</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <!-- Yahan Desktop Sidebar khatam -->
+
+    <div class="flex flex-col flex-1 w-full">
+      <!-- Header -->
+      <header class="z-10 py-4 bg-white shadow-md">
+        <div class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600">
+          <!-- Mobile hamburger -->
+          <button class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
+            aria-label="Menu">
+            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </button>
+
+          <ul class="hidden sm:flex items-center flex-shrink-0 space-x-6">
+            <li class="relative">
+              <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+              </button>
+            </li>
+            <li class="relative">
+              <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+              </button>
+            </li>
+            <li class="relative">
+              <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </button>
+            </li>
+            <li class="relative">
+              <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </li>
+          </ul>
+          <!-- Search input -->
+          <div class="flex justify-center flex-1 lg:mr-32">
+            <div class="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
+              <div class="absolute inset-y-0 flex items-center pl-2">
+                <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <input
+                class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
+                type="text" placeholder="Search" aria-label="Search" />
+            </div>
+          </div>
+
+          <ul class="flex items-center flex-shrink-0 space-x-6">
+            
+            <li class="relative">
+              <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </button>
+            </li>
+            
+          </ul>
+        </div>
+      </header>
+      <!-- Main Inner Complete Page -->
+      {% for message in messages %}
+                {% if message.tags == "success" %}
+                <div class="message bg-green-500 m-3 rounded-lg p-1">
+                    {{ message }}
+                    <a href="#" class="del-msg">&times;</a>
+                </div>
+                {% elif message.tags == "error" %}
+                <div class="message bg-red-500 m-3 rounded-lg p-1">
+                    {{ message }}
+                    <a href="#" class="del-msg">&times;</a>
+                </div>
+                {% endif %}
+            {% endfor %}
+      <main class="h-full overflow-y-auto">
+        <div class="px-2 mx-auto grid">
+          <h2 class="my-3 text-center text-2xl font-semibold text-blue-900">
+            View Member
+          </h2>
+          <div class="bg-gray-300 rounded-t-lg shadow-md p-3">
+            Member Details
+          </div>
+          
+
+            
+
+            <div class="px-3 py-3 bg-white rounded-lg rounded-b-none shadow-md ">
+
+              <div class="grid grid-cols-7 gap-2">
+                  <div class="flex flex-col ">
+                      <label for="" class="m-1">Result per Page</label>
+                      <select name="resultperpage" id="resultperpage" onchange="resultperpageValueChanged()"
+                          class="rounded-md bg-gray-200 outline-none border-none shadow-inner">
+                          <option value="10" selected>10</option>
+                          <option value="25">25</option>
+                          <option value="50">50</option>
+                          <option value="100">100</option>
+                          <option value="all">All</option>
+
+                      </select>
+                  </div>
+                  <div class="flex flex-col ">
+                      <label for="" class="m-1">Type</label>
+                      <select name="searchbytype" id="searchbytype" onchange="resultperpageValueChanged()"
+                          class="rounded-md bg-gray-200 outline-none border-none shadow-inner">
+                          <option value="" class="">select Type</option>
+                          <option value="Paid">Paid</option>
+                          <option value="Unpaid">UnPaid</option>
+                          
+                          <option value="Expired">Expired</option>
+                      </select>
+                  </div>
+                  <div class="flex flex-col ">
+                    <label for="" class="m-1">Search by Name</label>
+                    <input type="search" name="searchbyname" id="searchbyname"
+                        oninput="searchbymembername();"
+                        class="rounded-md p-2 outline-none border-none shadow-inner bg-gray-200"
+                        placeholder="search by number">
+                </div>
+                <div class="flex flex-col ">
+                    <label for="" class="m-1">Gender</label>
+                    <select name="searchbygender" id="searchbygender" onchange="SearchByGender(this)"
+                        class="rounded-md bg-gray-200 outline-none border-none shadow-inner">
+                        <option value="" class="">select Type</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                  <!-- from to To search -->
+                  <div class="flex flex-col">
+
+                      <div class="inline-flex gap-2">
+                          <div class="flex flex-col">
+                              <label for="" class="m-1">From</label>
+                              <input type="date" id="fromdate"
+                                  class="rounded-md p-2 outline-none border-none shadow-inner bg-gray-200">
+                          </div>
+
+                          <div class="flex flex-col">
+                              <label for="" class="m-1">To</label>
+                              <input type="date" id="todate"
+                                  class="rounded-md p-2 outline-none border-none shadow-inner bg-gray-200">
+                          </div>
+
+                          <div class="mt-8 border bg-gray-200 shadow-inner border-gray-600 rounded-md" onclick="searchClick()">
+                              <span class="cursor-pointer">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-7 m-1 w-7" fill="none"
+                                      viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                  </svg>
+                              </span>
+                          </div>
+
+                      </div>
+                  </div>
+
+              </div>
+
+              <div class="flex flex-row mt-2 justify-between border-b-2 border-gray-700 border-opacity-80">
+                  <p class="p-2 text-lg font-semibold text-gray-600 ">Registered Members</p>
+                  <div class="flex flex-row">
+                      <span @click="openViewAllSmsModal()"  
+                      class="p-1 cursor-pointer rounded-md border border-blue-700 m-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-900" fill="none"
+                              viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                          </svg>
+                      </span>
+                      <span onclick="reloadPage()" class="p-1 cursor-pointer rounded-md border border-blue-700 m-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700" fill="none"
+                              viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                      </span>
+                      <span onclick="sendDeleteRequest()" class="p-1 cursor-pointer rounded-md border border-red-900 m-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-900" fill="none"
+                              viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                      </span>
+                  </div>
+              </div>
+              <!-- Members Table -->
+              <table class="table-auto border-gray-200 w-full" id="myTable">
+                <thead class="border-b-2 text-left border-gray-400">
+                    <tr class="">
+                        <th class="p-2">
+                           
+                        </th>
+                        <th class="p-2">S No.</th>
+                        <th class="p-2">Name</th>
+                        <th class="p-2">Card No.</th>
+                        <th class="p-2">Number</th>
+                        <th class="p-2">Membership</th>
+                        <th class="p-2">Attended By</th>
+                        <th class="p-2">Start Date</th>
+                        <th class="p-2">End Date</th>
+                        <th class="p-2">Status</th>
+                        <th class="p-2">Edit</th>
+                        <th class="p-2">Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for data in zipdata %}
+                  <tr class="border-2 hover:bg-slate-300">
+                      <td class="p-2">
+                          <input  onclick="requestDelete(this)" data-id="{{data.id}}" type="checkbox" class="cursor-pointer rounded-md">
+                      </td>
+                      <td class="p-2">{{data.member_serial_no}}</td>
+                      <td class="p-2">
+                          <div class="flex items-center text-sm">
+                              <!-- Avatar with inset shadow -->
+                              <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                  <img class="object-cover w-full h-full rounded-full"
+                                      src="{{ MEDIA_URL }}/{{data.member_image}}"
+                                      alt="" loading="lazy" />
+                                  <div class="absolute inset-0 rounded-full shadow-inner"
+                                      aria-hidden="true"></div>
+                              </div>
+                              <div>
+                                  <p class="font-semibold">{{data.member_name}}</p>
+                                  <p class="text-sm text-gray-600 ">{{data.member_membership_id.category_name}}</p>
+                              </div>
+                          </div>
+                      </td>
+                      <td class="p-2">{{data.member_card_id}}</td>
+                      <td class="p-2">{{data.member_contact}}</td>
+                      <td class="p-2">{{data.member_membership_id.category_months}}</td>
+                      <td class="p-2">{{data.attended_by.user.username}}</td>
+                      <td class="p-2">
+                          {{data.member_membership_start_date}}
+                          
+                      </td>
+                      <td class="p-2">{{data.member_membership_expiry_date}}</td>
+                      
+                      {% if data.active_fee_id.status == 'Paid' %}
+                      <td class="p-2">
+                          <span
+                              class="px-2 py-1 font-semibold leading-tight text-black bg-blue-400 rounded-full">
+                              {{data.active_fee_id.status}}
+                          </span>
+                      </td>
+
+
+                      {% elif data.active_fee_id.status == 'Unpaid' %}
+                      <td class="p-2">
+                          <span
+                              class="px-2 py-1 font-semibold leading-tight text-black bg-yellow-300 rounded-full">
+                              {{data.active_fee_id.status}}
+                          </span>
+                      </td>
+                      {% else %}
+                      <td class="p-2">
+                        <span
+                            class="px-2 py-1 font-semibold leading-tight text-black bg-red-400 rounded-full">
+                            {{data.active_fee_id.status}}
+                        </span>
+                    </td>
+                      {% endif %}
+                      
+                      <form action="/memberDetails/" method="post">
+                          {% csrf_token %}
+
+
+                          <input type="text" hidden name="cid" value="{{data.id}}">
+                          <td class="p-2" >
+                              
+                              <div class="float-right mr-5">
+                                  <a href="/memberDetails/?data={{data.id}}">
+                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer"
+                                          fill="none" viewBox="0 0 24 24" stroke="currentColor" >
+                                          <path stroke-linecap="round" stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                      </svg>
+                                  </a>
+                                  
+                              </div>
+                          </td>
+                      </form>
+                      <td class="p-2">
+                        <button @click="openSMSModal({{data.id}});" 
+                            class="bg-green-500 drop-shadow-md px-5 rounded-lg rounded-br-none">SMS</button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          </div>
+         
+        </div>
+        <!-- Main Container-->
+      </main>
+    </div>
+
+  </div>
+  <div x-show="isSMSModalOpen" id="SMSModal"
+        class="fixed w-full h-screen left-0 top-0 z-10 flex flex-wrap justify-center content-center p-24">
+        <div x-show="isSMSModalOpen" class="fixed glass w-full h-screen left-0 top-0 z-0"
+            x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-100"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+        <div x-show="isSMSModalOpen" class="w-96 rounded-3xl bg-gray-200 shadow-xl overflow-hidden z-10"
+            x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-100"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90">
+
+            <div class="p-2">
+                <div class="float-right">
+                  <svg xmlns="http://www.w3.org/2000/svg" x-on:click="closeSMSModal()"
+                    class="h-5 w-5 text-blue-800 cursor-pointer" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </div>
+                <form action="{% url 'smshistory' %}" method="post">
+                  {% csrf_token %}
+                  <input type="text" name="model-member-id" id="model-member-id" hidden/>
+                  <div class="grid grid-cols-2 gap-y-2 mt-3 gap-x-3 p-2 overflow-y-auto">
+                    
+
+                    <div class="flex flex-col">
+                      <label for="" class="m-1 text-sm">Sms Module</label>
+                      <select name="model-smsModule" id="model-smsModule" onchange="SMSModuleChange(this)"
+                        class="rounded-md bg-gray-200 outline-none border-none shadow-inner">
+                        <option value="">Select Module</option>
+                        {% for i in sms_list %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label for="" class="m-1 text-sm">SMS For</label>
+                      <select name="model-smsfor" id="model-smsfor" onchange="SmsForChange(this)"
+                        class="rounded-md bg-gray-200 outline-none border-none shadow-inner">
+                        <option value="">Select Module</option>
+                      </select>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col col-span-2">
+                      <label for="" class="m-1">Message</label>
+                      <textarea type="text" id="model-smstext" value="0"
+                        class="rounded-md outline-none border-none shadow-inner p-2 bg-white"
+                        name="model-smstext"></textarea>
+                    </div>
+                    
+                    
+                  </div>
+                  <button class="bg-blue-600 px-10 rounded-lg mt-5 text-white ml-32 shadow-md rounded-br-none py-1"
+                    name="send-message" value="send-message">Send</button>
+                </form>
+              </div>
+
+        </div>
+    </div>
+    <!-- multiple sms model -->
+    <div x-show="isViewAllSmsModalOpen" id="ViewAllSmsModal"
+        class="fixed w-full h-screen left-0 top-0 z-10 flex flex-wrap justify-center content-center p-24">
+        <div x-show="isViewAllSmsModalOpen" class="fixed glass w-full h-screen left-0 top-0 z-0"
+            x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-100"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+        <div x-show="isViewAllSmsModalOpen" class="w-96 rounded-3xl bg-white shadow-xl overflow-hidden z-10"
+            x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-100"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90">
+
+            <div class="p-2">
+                <div class="float-right">
+                  <svg xmlns="http://www.w3.org/2000/svg" x-on:click="closeViewAllSmsModal()"
+                    class="h-5 w-5 text-blue-800 cursor-pointer" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </div>
+                <form action="{% url 'smshistory' %}" method="post">
+                  {% csrf_token %}
+                  <div class="grid grid-cols-2 gap-y-2 mt-3 gap-x-3 p-2 overflow-y-auto">
+                    
+
+                    <div class="flex flex-col">
+                      <label for="" class="m-1 text-sm">Sms Module</label>
+                      <select name="model-smsModule-all" id="model-smsModule-all" onchange="AllSMSModuleChange(this)"
+                        class="rounded-md bg-gray-200 outline-none border-none shadow-inner">
+                        <option value="">Select Module</option>
+                        {% for i in sms_list %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label for="" class="m-1 text-sm">SMS For</label>
+                      <select name="model-smsfor-all" id="model-smsfor-all" onchange="AllSmsForChange(this)"
+                        class="rounded-md bg-gray-200 outline-none border-none shadow-inner">
+                        <option value="">Select Module</option>
+                      </select>
+                    </div>
+                    
+                    
+                    <div class="flex flex-col col-span-2">
+                      <label for="" class="m-1">Message</label>
+                      <textarea type="text" id="model-smstext-all" value="0"
+                        class="rounded-md outline-none border-none shadow-inner p-2 bg-gray-200"
+                        name="model-smstext-all"></textarea>
+                    </div>
+                    <div class="flex flex-col col-span-2">
+                        <label for="" class="m-1">Send Message To</label>
+                        <div class="grid grid-cols-2">
+                            <div class="flex flex-row gap-2">
+                                <input type="checkbox" id="model-status" value="All"
+                              class="rounded-md outline-none border-none shadow-inner p-2 bg-gray-200 m-1 outline-gray-300"
+                              name="model-status"/>
+                              <label for="" class="">All Members</label>
+                            </div>
+    
+                            <div class="flex flex-row gap-2">
+                                <input type="checkbox" id="model-status" value="Unpaid"
+                              class="rounded-md outline-none border-none shadow-inner p-2 bg-gray-200 m-1 outline-gray-300"
+                              name="model-status"/>
+                              <label for="" class="">Unpaid Members</label>
+                            </div>
+    
+                            <div class="flex flex-row gap-2">
+                                <input type="checkbox" id="model-status" value="Expired"
+                              class="rounded-md outline-none border-none shadow-inner p-2 bg-gray-200 m-1 outline-gray-300"
+                              name="model-status"/>
+                              <label for="" class="">Expired Members</label>
+                            </div>
+                            
+                            <div class="flex flex-row gap-2">
+                                <input type="checkbox" id="model-status" value="Paid"
+                              class="rounded-md outline-none border-none shadow-inner p-2 bg-gray-200 m-1 outline-gray-300"
+                              name="model-status"/>
+                              <label for="" class="">Paid Members</label>
+                            </div>
+                        </div>
+                      </div>
+                    
+                    
+                  </div>
+                  <button class="bg-blue-600 px-10 rounded-lg mt-5 text-white ml-32 shadow-md rounded-br-none py-1"
+                    name="send-message-toall" value="send-message-toall">Send</button>
+                </form>
+              </div>
+
+        </div>
+    </div>
+  <script src="{% static 'js/addmember.js' %}"></script>
+  
+</body>
+
+</html>
